@@ -34,6 +34,8 @@ extern NSString *const PHFComposeBarViewFrameEndUserInfoKey;          // NSValue
 
 @property (strong, nonatomic, readonly) UIButton *button;
 
+@property (assign, nonatomic) BOOL textContainerBorder;
+
 // Default is a blue matching that from iMessage (RGB: 0, 122, 255).
 @property (strong, nonatomic) UIColor *buttonTintColor UI_APPEARANCE_SELECTOR;
 

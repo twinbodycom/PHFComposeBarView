@@ -343,11 +343,13 @@ static CGFloat kTextViewToSuperviewHeightDelta;
         [_textContainer setBackgroundColor:[UIColor colorWithWhite:0.98f alpha:1.0f]];
         [_textContainer setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
 
-        CALayer *layer = [_textContainer layer];
-        UIColor *borderColor = [UIColor colorWithHue:240.0f/360.0f saturation:0.02f brightness:0.8f alpha:1.0f];
-        [layer setBorderColor:[borderColor CGColor]];
-        [layer setBorderWidth:0.5f];
-        [layer setCornerRadius:kTextContainerCornerRadius];
+        if (self.textContainerBorder == YES) {
+	        CALayer *layer = [_textContainer layer];
+	        UIColor *borderColor = [UIColor colorWithHue:240.0f/360.0f saturation:0.02f brightness:0.8f alpha:1.0f];
+	        [layer setBorderColor:[borderColor CGColor]];
+	        [layer setBorderWidth:0.5f];
+	        [layer setCornerRadius:kTextContainerCornerRadius];
+        }
 
         CGFloat textHeight = [self textHeight];
         [self setPreviousTextHeight:textHeight];
@@ -604,6 +606,7 @@ static CGFloat kTextViewToSuperviewHeightDelta;
     _autoAdjustTopOffset = YES;
     _enabled = YES;
     _maxHeight = 200.0f;
+    _textContainerBorder = YES;
 
     [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin];
 
@@ -614,6 +617,23 @@ static CGFloat kTextViewToSuperviewHeightDelta;
     [self addSubview:[self textContainer]];
 
     [self resizeButton];
+}
+
+- (void)setTextContainerBorder:(BOOL)textContainerBorder {
+    _textContainerBorder = textContainerBorder;
+    if (self.textContainerBorder == YES) {
+        CALayer *layer = [[self textContainer] layer];
+        UIColor *borderColor = [UIColor colorWithHue:240.0f/360.0f saturation:0.02f brightness:0.8f alpha:1.0f];
+        [layer setBorderColor:[borderColor CGColor]];
+        [layer setBorderWidth:0.5f];
+        [layer setCornerRadius:kTextContainerCornerRadius];
+    } else {
+        [[self textContainer] setBackgroundColor:[UIColor whiteColor]];
+        CALayer *layer = [[self textContainer] layer];
+        [layer setBorderColor:[UIColor whiteColor].CGColor];
+        [layer setBorderWidth:0];
+        [layer setCornerRadius:0];
+    }
 }
 
 - (void)setupDelegateChainForTextView {
