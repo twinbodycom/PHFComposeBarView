@@ -53,11 +53,11 @@ static CGFloat kTextViewToSuperviewHeightDelta;
 
 
 @interface PHFComposeBarView ()
-@property (strong, nonatomic, readonly) UIToolbar *backgroundView;
+@property (strong, nonatomic, readonly) UIView *backgroundView;
 @property (strong, nonatomic, readonly) UIView *topLineView;
 @property (strong, nonatomic, readonly) UILabel *charCountLabel;
 @property (strong, nonatomic) PHFDelegateChain *delegateChain;
-@property (strong, nonatomic, readonly) UIView *textContainer;
+@property (strong, nonatomic, readonly) UIButton *textContainer;
 @property (assign, nonatomic) CGFloat previousTextHeight;
 @end
 
@@ -129,6 +129,10 @@ static CGFloat kTextViewToSuperviewHeightDelta;
 
 - (void)textViewDidChange:(UITextView *)textView {
     [self handleTextViewChangeAnimated:NO];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:    (NSString *)text {
+    return YES;
 }
 
 #pragma mark - Public Properties
@@ -270,13 +274,11 @@ static CGFloat kTextViewToSuperviewHeightDelta;
 }
 
 @synthesize backgroundView = _backgroundView;
-- (UIToolbar *)backgroundView {
+- (UIView *)backgroundView {
     if (!_backgroundView) {
         CGRect frame = [self bounds];
         frame.origin.y = 0.5f;
-        _backgroundView = [[UIToolbar alloc] initWithFrame:frame];
-        [_backgroundView setBarStyle:UIBarStyleDefault];
-        [_backgroundView setTranslucent:YES];
+        _backgroundView = [[UIView alloc] initWithFrame:frame];
         [_backgroundView setTintColor:[UIColor whiteColor]];
         [_backgroundView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     }
