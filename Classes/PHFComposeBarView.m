@@ -340,7 +340,8 @@ static CGFloat kTextViewToSuperviewHeightDelta;
                                                kTextContainerTopMargin,
                                                [self bounds].size.width - kHorizontalSpacing * 3 - kButtonRightMargin,
                                                [self bounds].size.height - kTextContainerTopMargin - kTextContainerBottomMargin);
-        _textContainer = [[UIView alloc] initWithFrame:textContainerFrame];
+        _textContainer = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_textContainer setFrame:textContainerFrame];
         [_textContainer setClipsToBounds:YES];
         [_textContainer setBackgroundColor:[UIColor colorWithWhite:0.98f alpha:1.0f]];
         [_textContainer setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
@@ -371,6 +372,8 @@ static CGFloat kTextViewToSuperviewHeightDelta;
                                              kPlaceholderHeight);
         [[self placeholderLabel] setFrame:placeholderFrame];
         [_textContainer addSubview:[self placeholderLabel]];
+
+        [_textContainer addTarget:[self textView] action:@selector(becomeFirstResponder) forControlEvents:UIControlEventTouchUpInside];
     }
 
     return _textContainer;
